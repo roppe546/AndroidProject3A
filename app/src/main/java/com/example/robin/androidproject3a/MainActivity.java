@@ -8,52 +8,81 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.AbsListView;
-import android.widget.Gallery;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    SensorManager manager;
+    private SensorManager manager;
+    private Sensor accelerometerSensor;
+    private Sensor magneticSensor;
+    private float[] accelerometerData;
+    private float[] magneticData;
+    private float[] radValues = new float[3];
+    private float[] degreeValues = new float[3];
+    private float[] rotation = new float[9];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        FlowerAnimation myFlower = new FlowerAnimation(this, null);
-
         setContentView(R.layout.activity_main);
 
+        // Get sensor manager and sensors needed to calculate orientation
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Sensor accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometerSensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        if (accelerometer != null) {
-            // Success! There's an accelerometer
-            Log.i("SENSOR", "Sensors found.");
-
-            manager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
-            Log.i("SENSOR", "No sensor found.");
-        }
     }
 
-    private final SensorEventListener sensorEventListener = new SensorEventListener() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        manager.registerListener(sensorListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        manager.registerListener(sensorListener, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        manager.unregisterListener(sensorListener);
+    }
+
+    private final SensorEventListener sensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            double x = event.values[0];
-            double y = event.values[1];
-            double z = event.values[2];
-            long time = event.timestamp;
+            // Save sensor data to the corresponding arrays
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                accelerometerData = event.values;
+            }
+            else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                magneticData = event.values;
+            }
 
-            Log.i("SENSE", "x: " + x + ", y: " + y + ", z: " + z + ", at " + time);
+            getOrientation();
         }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            return;
+
         }
     };
+
+    /**
+     * Calculate the orientation of each axis (x, y, z) of the phone in
+     * degrees.
+     */
+    private void getOrientation() {
+        // If data from both accelerometer and magnetic field sensor exists,
+        // use it to calculate the orientation
+        if (accelerometerData != null && magneticData != null) {
+            SensorManager.getRotationMatrix(rotation, null, accelerometerData, magneticData);
+            SensorManager.getOrientation(rotation, radValues);
+
+            // Filtering here if needed
+
+            for (int i = 0; i < radValues.length; i++) {
+                degreeValues[i] = (float) Math.toDegrees(radValues[i]);
+            }
+
+            Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
+        }
+    }
 }

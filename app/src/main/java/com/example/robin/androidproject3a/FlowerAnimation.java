@@ -3,6 +3,7 @@ package com.example.robin.androidproject3a;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -11,11 +12,10 @@ import android.widget.LinearLayout;
 /**
  * Created by Peonsson on 07/12/15.
  */
-public class FlowerAnimation extends android.view.View {
+public class FlowerAnimation extends View {
 
     public FlowerAnimation(Context context, AttributeSet attrs) {
         super(context, attrs);
-
 
         LinearLayout mLinearLayout = new LinearLayout(getContext());
 
@@ -27,31 +27,40 @@ public class FlowerAnimation extends android.view.View {
                 AbsListView.LayoutParams.WRAP_CONTENT));
 
         // Add the ImageView to the layout and set the layout as the content view
-        mLinearLayout.addView(i);
+       mLinearLayout.addView(i);
     }
 
-    public static void drawFlower(double x) {
+    public static void drawFlower(double y) {
+        // Portrait
+        if (y <= -80) {
 
+        }
+        else if (y <= -70) {
 
-        if (x < 1) {
+        }
+        else if (y <= -60) {
 
-        } else if (x < 2) {
+        }
+        else if (y <= -50) {
 
-        } else if (x < 3) {
+        }
+        else if (y <= -40) {
 
-        } else if (x < 4) {
+        }
+        else if (y <= -30) {
 
-        } else if (x < 5) {
+        }
+        else if (y <= -20) {
 
-        } else if (x < 6) {
+        }
+        else if (y <= -10) {
 
-        } else if (x < 7) {
+        }
+        // Landscape
+        else if (y <= 10) {
 
-        } else if (x < 8) {
-
-        } else if (x < 9) {
-
-        } else {
+        }
+        else {
 
         }
     }
