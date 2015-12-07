@@ -8,6 +8,10 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.AbsListView;
+import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         FlowerAnimation myFlower = new FlowerAnimation(this, null);
+
         setContentView(R.layout.activity_main);
 
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
