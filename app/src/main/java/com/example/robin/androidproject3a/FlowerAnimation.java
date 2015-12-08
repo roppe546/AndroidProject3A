@@ -25,7 +25,6 @@ public class FlowerAnimation extends View {
     private Bitmap background8;
     private int _background = 1;
 
-
     public FlowerAnimation(Context context, AttributeSet attrs) {
         super(context, attrs);
 
