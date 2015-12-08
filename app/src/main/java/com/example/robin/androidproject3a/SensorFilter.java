@@ -16,10 +16,10 @@ public class SensorFilter {
      * @param filterFactor  the factor used for filtering
      * @param startVal      the start value of the filter value
      */
-    public SensorFilter(float filterFactor, float startVal) {
-        this.currentFilteredVal = filterFactor;
+    public SensorFilter(float startVal, float filterFactor) {
+        this.currentFilteredVal = startVal;
         this.previousFilteredVal = startVal;
-        this.filterFactor = startVal;
+        this.filterFactor = filterFactor;
     }
 
     /**
