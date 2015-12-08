@@ -118,22 +118,20 @@ public class MainActivity extends AppCompatActivity {
             if (new Date().getTime() - time.getTime() > 200) {
                 if (maxAcc > 3f || minAcc < -3f) {
                     accCounter++;
-                    System.out.println("we have shaked for 0.2s");
+                    System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
                         FlowerAnimation.playShake();
-                        System.out.println("we have been shaking for 1s; returning true");
+                        System.out.println("we HAVE been shaking for 1.0s");
                     }
                 } else {
-                    System.out.println("we havent shaken for 0.2s; setting accCounter = 0");
+                    System.out.println("we have NOT shaken for 0.2s");
                     accCounter = 0;
                 }
-                System.out.println("resetting time, minAcc and maxAcc");
                 time = new Date();
                 maxAcc = 0;
                 minAcc = 0;
             }
         }
-
         return false;
     }
 
