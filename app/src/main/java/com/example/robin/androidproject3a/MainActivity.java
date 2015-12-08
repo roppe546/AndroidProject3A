@@ -12,6 +12,7 @@ import android.util.Log;
 import android.util.TimeUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private SensorFilter[] lowPassFilters = {new SensorFilter(0f, 0.90f), new SensorFilter(0f, 0.90f), new SensorFilter(0f, 0.90f)};
 
     static int counter = 0;
+
+
+    private float maxAcc = 0;
+    private float minAcc = 0;
+    private int accCounter = 0;
+    private Date time;
 
     private FlowerAnimation flowerAnimation;
 
@@ -71,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
             // Save sensor data to the corresponding arrays
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 accelerometerData = event.values;
-            }
-            else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 magneticData = event.values;
             }
 
@@ -86,45 +92,49 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void senseIfShake() {
+    private boolean senseIfShake() {
         if (accelerometerData != null) {
             float x = accelerometerData[0];
             float y = accelerometerData[1];
             float z = accelerometerData[2];
             previousAcceleration = currentAcceleration;
-            currentAcceleration = (float) Math.sqrt(x*x + y*y + z*z);
+            currentAcceleration = (float) Math.sqrt(x * x + y * y + z * z);
             float delta = currentAcceleration - previousAcceleration;
             // Multiply by 0.9 to use it as a high pass filter
             acceleration = acceleration * 0.90f + delta;
 
-//            Log.i("SHAKE", "acc " + acceleration);
+            if (time == null)
+                time = new Date();
 
+            System.out.println(acceleration);
 
-            long currentTime = SystemClock.elapsedRealtime();
-
-            Log.i("SHAKE", "c - prev = " + (currentTime - timeShakePrevious));
-
-            if (timeShakePrevious == 0 || (currentTime - timeShakePrevious) < 200) {
-                if (acceleration >= 6f || acceleration <= -6f) {
-                    long timeDelta = currentTime - timeShakePrevious;
-                    timeShaken += timeDelta;
-
-                    Log.i("SHAKE", "time delta " + timeDelta);
-                    if (timeDelta >= 1000) {
-                        Log.i("SHAKE", "Shaken for 1 second");
-                    }
-
-                    timeShakePrevious = currentTime;
-//                    Log.i("SHAKE", timeShaken + "<-");
-                }
+            if (acceleration > maxAcc) {
+                maxAcc = acceleration;
             }
-            else {
-                Log.i("SHAKE", "RESETTING");
-                timeShakePrevious = 0;
-                timeShakeStart = 0;
-                timeShaken = 0;
+            if (acceleration < minAcc) {
+                minAcc = acceleration;
+            }
+
+            if (new Date().getTime() - time.getTime() > 200) {
+                if (maxAcc > 3f || minAcc < -3f) {
+                    accCounter++;
+                    System.out.println("we have shaked for 0.2s");
+                    if (accCounter >= 5) {
+                        FlowerAnimation.playShake();
+                        System.out.println("we have been shaking for 1s; returning true");
+                    }
+                } else {
+                    System.out.println("we havent shaken for 0.2s; setting accCounter = 0");
+                    accCounter = 0;
+                }
+                System.out.println("resetting time, minAcc and maxAcc");
+                time = new Date();
+                maxAcc = 0;
+                minAcc = 0;
             }
         }
+
+        return false;
     }
 
     /**
@@ -143,8 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < radValues.length; i++) {
                     radValues[i] = highPassFilters[i].filter(radValues[i]);
                 }
-            }
-            else if (lowPassFilter) {
+            } else if (lowPassFilter) {
                 for (int i = 0; i < radValues.length; i++) {
                     radValues[i] = lowPassFilters[i].filter(radValues[i]);
                 }

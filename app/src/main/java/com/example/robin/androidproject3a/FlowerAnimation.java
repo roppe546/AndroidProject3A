@@ -72,42 +72,42 @@ public class FlowerAnimation extends View {
     public void drawFlower(double y) {
         if (y <= -80) {
             _background = 1;
-            Log.i("DRAWFLOWER", "f1");
+//            Log.i("DRAWFLOWER", "f1");
         }
         else if (y <= -70) {
             _background = 2;
-            Log.i("DRAWFLOWER", "f2");
+//            Log.i("DRAWFLOWER", "f2");
         }
         else if (y <= -60) {
             _background = 3;
-            Log.i("DRAWFLOWER", "f3");
+//            Log.i("DRAWFLOWER", "f3");
         }
         else if (y <= -50) {
             _background = 4;
-            Log.i("DRAWFLOWER", "f4");
+//            Log.i("DRAWFLOWER", "f4");
         }
         else if (y <= -40) {
             _background = 5;
-            Log.i("DRAWFLOWER", "f5");
+//            Log.i("DRAWFLOWER", "f5");
         }
         else if (y <= -30) {
             _background = 6;
-            Log.i("DRAWFLOWER", "f6");
+//            Log.i("DRAWFLOWER", "f6");
         }
         else if (y <= -20) {
             _background = 7;
-            Log.i("DRAWFLOWER", "f7");
+//            Log.i("DRAWFLOWER", "f7");
         }
         else if (y <= -10) {
             _background = 8;
-            Log.i("DRAWFLOWER", "f8");
+//            Log.i("DRAWFLOWER", "f8");
         }
         else if (y <= 10) {
             _background = 8;
-            Log.i("DRAWFLOWER", "f8");
+//            Log.i("DRAWFLOWER", "f8");
         } else {
             _background = 0;
-            Log.i("DRAWFLOWER", "nopetals");
+//            Log.i("DRAWFLOWER", "nopetals");
         }
         invalidate();
     }
@@ -115,7 +115,7 @@ public class FlowerAnimation extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        System.out.println("running onDraw");
+//        System.out.println("running onDraw");
 
         if(_background == 1) {
             canvas.drawBitmap(background1, 0, 0, null);
@@ -138,5 +138,8 @@ public class FlowerAnimation extends View {
         } else {
             canvas.drawBitmap(background0, 0, 0, null);
         }
+    }
+
+    public static void playShake() {
     }
 }
