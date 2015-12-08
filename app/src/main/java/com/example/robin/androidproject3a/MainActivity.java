@@ -27,18 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private float acceleration;
     private float currentAcceleration;
     private float previousAcceleration;
-    private Calendar cal = Calendar.getInstance();
-    private long timeShakeStart = 0;
-    private long timeShakePrevious = 0;
-    private long timeShaken;
     private boolean highPassFilter = true;
     private boolean lowPassFilter = false;
     private SensorFilter[] highPassFilters = {new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f)};
     private SensorFilter[] lowPassFilters = {new SensorFilter(0f, 0.90f), new SensorFilter(0f, 0.90f), new SensorFilter(0f, 0.90f)};
-
-    static int counter = 0;
-
-
     private float maxAcc = 0;
     private float minAcc = 0;
     private int accCounter = 0;
