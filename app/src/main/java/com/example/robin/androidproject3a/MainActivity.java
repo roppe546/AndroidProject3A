@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
     private float[] radValues = new float[3];
     private float[] degreeValues = new float[3];
     private float[] rotation = new float[9];
+    private boolean highPassFilter = true;
+    private boolean lowPassFilter = false;
+    private SensorFilter[] highPassFilters = {new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f)};
+    private SensorFilter[] lowPassFilters = {new SensorFilter(0f, 0.90f), new SensorFilter(0f, 0.90f), new SensorFilter(0f, 0.90f)};
 
     static int counter = 0;
 
@@ -81,6 +85,17 @@ public class MainActivity extends AppCompatActivity {
             SensorManager.getOrientation(rotation, radValues);
 
             // Filtering here if needed
+            if (highPassFilter) {
+                for (int i = 0; i < radValues.length; i++) {
+                    radValues[i] = highPassFilters[i].filter(radValues[i]);
+                }
+            }
+            else if (lowPassFilter) {
+                for (int i = 0; i < radValues.length; i++) {
+                    radValues[i] = lowPassFilters[i].filter(radValues[i]);
+                }
+            }
+
 
             for (int i = 0; i < radValues.length; i++) {
                 degreeValues[i] = (float) Math.toDegrees(radValues[i]);
