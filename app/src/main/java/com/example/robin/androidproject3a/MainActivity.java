@@ -5,9 +5,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TimeUtils;
+
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private SensorManager manager;
@@ -18,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
     private float[] radValues = new float[3];
     private float[] degreeValues = new float[3];
     private float[] rotation = new float[9];
+    private float acceleration;
+    private float currentAcceleration;
+    private float previousAcceleration;
+    private Calendar cal = Calendar.getInstance();
+    private long timeShakeStart = 0;
+    private long timeShakePrevious = 0;
+    private long timeShaken;
     private boolean highPassFilter = true;
     private boolean lowPassFilter = false;
     private SensorFilter[] highPassFilters = {new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f)};
@@ -64,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 magneticData = event.values;
             }
 
+            senseIfShake();
             getOrientation();
         }
 
@@ -72,6 +85,47 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    private void senseIfShake() {
+        if (accelerometerData != null) {
+            float x = accelerometerData[0];
+            float y = accelerometerData[1];
+            float z = accelerometerData[2];
+            previousAcceleration = currentAcceleration;
+            currentAcceleration = (float) Math.sqrt(x*x + y*y + z*z);
+            float delta = currentAcceleration - previousAcceleration;
+            // Multiply by 0.9 to use it as a high pass filter
+            acceleration = acceleration * 0.90f + delta;
+
+//            Log.i("SHAKE", "acc " + acceleration);
+
+
+            long currentTime = SystemClock.elapsedRealtime();
+
+            Log.i("SHAKE", "c - prev = " + (currentTime - timeShakePrevious));
+
+            if (timeShakePrevious == 0 || (currentTime - timeShakePrevious) < 200) {
+                if (acceleration >= 6f || acceleration <= -6f) {
+                    long timeDelta = currentTime - timeShakePrevious;
+                    timeShaken += timeDelta;
+
+                    Log.i("SHAKE", "time delta " + timeDelta);
+                    if (timeDelta >= 1000) {
+                        Log.i("SHAKE", "Shaken for 1 second");
+                    }
+
+                    timeShakePrevious = currentTime;
+//                    Log.i("SHAKE", timeShaken + "<-");
+                }
+            }
+            else {
+                Log.i("SHAKE", "RESETTING");
+                timeShakePrevious = 0;
+                timeShakeStart = 0;
+                timeShaken = 0;
+            }
+        }
+    }
 
     /**
      * Calculate the orientation of each axis (x, y, z) of the phone in
