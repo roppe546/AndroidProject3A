@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private float[] degreeValues = new float[3];
     private float[] rotation = new float[9];
 
+    static int counter = 0;
+
     private FlowerAnimation flowerAnimation;
 
     @Override
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometerSensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        flowerAnimation = new FlowerAnimation(getApplicationContext(), null);
+        flowerAnimation = (FlowerAnimation) findViewById(R.id.flowerView);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < radValues.length; i++) {
                 degreeValues[i] = (float) Math.toDegrees(radValues[i]);
             }
-            Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
+//            Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
             flowerAnimation.drawFlower(degreeValues[1]);
         }
     }
