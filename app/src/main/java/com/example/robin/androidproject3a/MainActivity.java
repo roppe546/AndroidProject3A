@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private float[] degreeValues = new float[3];
     private float[] rotation = new float[9];
 
+    private FlowerAnimation flowerAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometerSensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-
+        flowerAnimation = new FlowerAnimation(getApplicationContext(), null);
     }
 
     @Override
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
+            flowerAnimation.drawFlower(degreeValues[1]);
         }
     }
 }
