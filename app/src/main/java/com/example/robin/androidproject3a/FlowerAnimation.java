@@ -74,7 +74,6 @@ public class FlowerAnimation extends View {
         background8temp.recycle();
 
 //        petal = (ImageView) findViewById(R.id.petal1);
-
 //        petals = AnimationUtils.loadAnimation(getContext(), R.anim.nopetals1);
     }
 

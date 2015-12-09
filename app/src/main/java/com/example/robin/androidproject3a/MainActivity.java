@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private float minAcc = 0;
     private int accCounter = 0;
     private Date time;
+    private Date previousShake;
 
     private FlowerAnimation flowerAnimation;
 
@@ -59,22 +60,16 @@ public class MainActivity extends AppCompatActivity {
         magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         flowerAnimation = (FlowerAnimation) findViewById(R.id.flowerView);
 
-        petal1 = (ImageView) findViewById(R.id.petal1);
-        petal1.setVisibility(View.INVISIBLE);
-        petal2 = (ImageView) findViewById(R.id.petal2);
-        petal2.setVisibility(View.INVISIBLE);
-        petal3 = (ImageView) findViewById(R.id.petal3);
-        petal3.setVisibility(View.INVISIBLE);
-        petal4 = (ImageView) findViewById(R.id.petal4);
-        petal4.setVisibility(View.INVISIBLE);
-        petal5 = (ImageView) findViewById(R.id.petal5);
-        petal5.setVisibility(View.INVISIBLE);
+        petal1 = (ImageView) findViewById(R.id.petalup);
+        petal2 = (ImageView) findViewById(R.id.petalright);
+        petal3 = (ImageView) findViewById(R.id.petaldown);
+        petal4 = (ImageView) findViewById(R.id.petalleft);
 
         petalAnimation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals1);
         petalAnimation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals2);
         petalAnimation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals3);
         petalAnimation4 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals4);
-        petalAnimation5 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals5);
+        previousShake = new Date();
     }
 
     @Override
@@ -100,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 magneticData = event.values;
             }
-
             senseIfShake();
             getOrientation();
         }
@@ -113,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean senseIfShake() {
         if (accelerometerData != null) {
+
+//            if(new Date().getTime() < previousShake.getTime() + 1000)
+//                return false;
+
             float x = accelerometerData[0];
             float y = accelerometerData[1];
             float z = accelerometerData[2];
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             if (time == null)
                 time = new Date();
 
-            System.out.println(acceleration);
+//            System.out.println(acceleration);
 
             if (acceleration > maxAcc) {
                 maxAcc = acceleration;
@@ -140,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
 //                        flowerAnimation.playShake();
+                        accCounter = 0;
+//                        previousShake = new Date();
                         playShake();
-
 //                        System.out.println("we HAVE been shaking for 1.0s");
                     }
                 } else {
@@ -187,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void playShake() {
-        petal5.startAnimation(petalAnimation5);
         petal1.startAnimation(petalAnimation1);
         petal2.startAnimation(petalAnimation2);
         petal3.startAnimation(petalAnimation3);
