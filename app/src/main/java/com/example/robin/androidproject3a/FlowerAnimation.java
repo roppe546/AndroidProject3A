@@ -4,16 +4,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 /**
  * Created by Peonsson on 07/12/15.
  */
 public class FlowerAnimation extends View {
 
+    private Animation petals;
     private Bitmap background0;
     private Bitmap background1;
     private Bitmap background2;
@@ -24,6 +29,8 @@ public class FlowerAnimation extends View {
     private Bitmap background7;
     private Bitmap background8;
     private int _background = 1;
+
+    private ImageView petal;
 
     public FlowerAnimation(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,6 +74,8 @@ public class FlowerAnimation extends View {
         Bitmap background8temp = BitmapFactory.decodeResource(context.getResources(), R.drawable.f8);
         background8 = Bitmap.createScaledBitmap(background8temp, width, height, false);
         background8temp.recycle();
+
+        petals = AnimationUtils.loadAnimation(getContext(), R.anim.nopetals);
     }
 
     public void drawFlower(double y) {
@@ -140,6 +149,8 @@ public class FlowerAnimation extends View {
         }
     }
 
-    public static void playShake() {
+    public void playShake() {
+        _background = 0;
+        this.startAnimation(petals);
     }
 }

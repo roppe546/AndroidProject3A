@@ -103,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (new Date().getTime() - time.getTime() > 200) {
-                if (maxAcc > 3f || minAcc < -3f) {
+                if (maxAcc > 1.5f || minAcc < -1.5f) {
                     accCounter++;
                     System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
-                        FlowerAnimation.playShake();
+                        flowerAnimation.playShake();
                         System.out.println("we HAVE been shaking for 1.0s");
                     }
                 } else {
