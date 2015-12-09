@@ -75,6 +75,8 @@ public class FlowerAnimation extends View {
         background8 = Bitmap.createScaledBitmap(background8temp, width, height, false);
         background8temp.recycle();
 
+        petal = (ImageView) findViewById(R.id.petal);
+
         petals = AnimationUtils.loadAnimation(getContext(), R.anim.nopetals);
     }
 
@@ -151,6 +153,6 @@ public class FlowerAnimation extends View {
 
     public void playShake() {
         _background = 0;
-        this.startAnimation(petals);
+        petal.startAnimation(petals);
     }
 }

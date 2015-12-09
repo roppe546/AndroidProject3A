@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import java.util.Date;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Date time;
 
     private FlowerAnimation flowerAnimation;
+    private ImageView petal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         accelerometerSensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         flowerAnimation = (FlowerAnimation) findViewById(R.id.flowerView);
+        petal = (ImageView) findViewById(R.id.petal);
     }
 
     @Override
