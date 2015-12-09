@@ -7,6 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import java.util.Date;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FlowerAnimation flowerAnimation;
     private ImageView petal;
+    private Animation petals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         flowerAnimation = (FlowerAnimation) findViewById(R.id.flowerView);
         petal = (ImageView) findViewById(R.id.petal);
+        petals = AnimationUtils.loadAnimation(this, R.anim.nopetals);
+
     }
 
     @Override
@@ -110,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
                     accCounter++;
                     System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
-                        flowerAnimation.playShake();
+//                        flowerAnimation.playShake();
+                        playShake();
                         System.out.println("we HAVE been shaking for 1.0s");
                     }
                 } else {
@@ -154,5 +160,9 @@ public class MainActivity extends AppCompatActivity {
 //            Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
             flowerAnimation.drawFlower(degreeValues[1]);
         }
+    }
+
+    private void playShake() {
+        petal.startAnimation(petals);
     }
 }

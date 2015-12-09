@@ -153,6 +153,6 @@ public class FlowerAnimation extends View {
 
     public void playShake() {
         _background = 0;
-        petal.startAnimation(petals);
+//        petal.startAnimation(petals);
     }
 }
