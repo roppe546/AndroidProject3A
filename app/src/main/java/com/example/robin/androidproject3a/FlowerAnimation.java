@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -75,9 +73,9 @@ public class FlowerAnimation extends View {
         background8 = Bitmap.createScaledBitmap(background8temp, width, height, false);
         background8temp.recycle();
 
-        petal = (ImageView) findViewById(R.id.petal);
+//        petal = (ImageView) findViewById(R.id.petal1);
 
-        petals = AnimationUtils.loadAnimation(getContext(), R.anim.nopetals);
+//        petals = AnimationUtils.loadAnimation(getContext(), R.anim.nopetals1);
     }
 
     public void drawFlower(double y) {
@@ -118,7 +116,7 @@ public class FlowerAnimation extends View {
 //            Log.i("DRAWFLOWER", "f8");
         } else {
             _background = 0;
-//            Log.i("DRAWFLOWER", "nopetals");
+//            Log.i("DRAWFLOWER", "nopetals1");
         }
         invalidate();
     }

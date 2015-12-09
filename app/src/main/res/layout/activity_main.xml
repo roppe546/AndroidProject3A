@@ -18,10 +18,46 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"/>
 
+    <ImageView
+        android:id="@+id/petal5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nopetals_background"
+        android:layout_alignTop="@+id/petal1"
+        android:layout_alignStart="@+id/petal1" />
+
 
     <ImageView
-        android:id="@+id/petal"
+        android:id="@+id/petal1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/petal"/>
+        android:src="@drawable/petal"
+        android:layout_alignTop="@+id/petal2"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="94dp" />
+
+    <ImageView
+        android:id="@+id/petal2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/petal"
+        android:layout_alignTop="@+id/petal3"
+        android:layout_alignStart="@+id/petal1" />
+
+    <ImageView
+        android:id="@+id/petal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/petal"
+        android:layout_marginTop="35dp"
+        android:layout_alignTop="@+id/flowerView"
+        android:layout_alignStart="@+id/petal1" />
+
+    <ImageView
+        android:id="@+id/petal4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/petal"
+        android:layout_alignTop="@+id/petal1"
+        android:layout_alignStart="@+id/petal1" />
 </RelativeLayout>

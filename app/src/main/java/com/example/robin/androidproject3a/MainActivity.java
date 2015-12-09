@@ -7,6 +7,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import java.util.Date;
 
@@ -33,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
 
     private FlowerAnimation flowerAnimation;
 
+    private ImageView petal1;
+    private ImageView petal2;
+    private ImageView petal3;
+    private ImageView petal4;
+    private Animation petalAnimation1;
+    private Animation petalAnimation2;
+    private Animation petalAnimation3;
+    private Animation petalAnimation4;
+    private Animation petalAnimation5;
+    private ImageView petal5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +58,23 @@ public class MainActivity extends AppCompatActivity {
         accelerometerSensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magneticSensor = manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         flowerAnimation = (FlowerAnimation) findViewById(R.id.flowerView);
+
+        petal1 = (ImageView) findViewById(R.id.petal1);
+        petal1.setVisibility(View.INVISIBLE);
+        petal2 = (ImageView) findViewById(R.id.petal2);
+        petal2.setVisibility(View.INVISIBLE);
+        petal3 = (ImageView) findViewById(R.id.petal3);
+        petal3.setVisibility(View.INVISIBLE);
+        petal4 = (ImageView) findViewById(R.id.petal4);
+        petal4.setVisibility(View.INVISIBLE);
+        petal5 = (ImageView) findViewById(R.id.petal5);
+        petal5.setVisibility(View.INVISIBLE);
+
+        petalAnimation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals1);
+        petalAnimation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals2);
+        petalAnimation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals3);
+        petalAnimation4 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals4);
+        petalAnimation5 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals5);
     }
 
     @Override
@@ -108,11 +140,9 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
 //                        flowerAnimation.playShake();
+                        playShake();
 
-
-
-
-                        System.out.println("we HAVE been shaking for 1.0s");
+//                        System.out.println("we HAVE been shaking for 1.0s");
                     }
                 } else {
                     System.out.println("we have NOT shaken for 0.2s");
@@ -154,5 +184,13 @@ public class MainActivity extends AppCompatActivity {
 //            Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
             flowerAnimation.drawFlower(degreeValues[1]);
         }
+    }
+
+    private void playShake() {
+        petal5.startAnimation(petalAnimation5);
+        petal1.startAnimation(petalAnimation1);
+        petal2.startAnimation(petalAnimation2);
+        petal3.startAnimation(petalAnimation3);
+        petal4.startAnimation(petalAnimation4);
     }
 }
