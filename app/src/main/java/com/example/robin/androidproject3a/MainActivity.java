@@ -7,8 +7,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -16,6 +14,7 @@ import android.widget.ImageView;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
     private SensorManager manager;
     private Sensor accelerometerSensor;
     private Sensor magneticSensor;
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private float minAcc = 0;
     private int accCounter = 0;
     private Date time;
-    private Date previousShake;
 
     private FlowerAnimation flowerAnimation;
 
@@ -43,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView petal2;
     private ImageView petal3;
     private ImageView petal4;
+
     private Animation petalAnimation1;
     private Animation petalAnimation2;
     private Animation petalAnimation3;
@@ -68,13 +67,11 @@ public class MainActivity extends AppCompatActivity {
         petalAnimation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals2);
         petalAnimation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals3);
         petalAnimation4 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.nopetals4);
-        previousShake = new Date();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         manager.registerListener(sensorListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         manager.registerListener(sensorListener, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
@@ -127,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (new Date().getTime() - time.getTime() > 200) {
-                if (maxAcc > 1.5f || minAcc < -1.5f) {
+                if (maxAcc > 1.0f || minAcc < -1.0f) {
                     accCounter++;
                     System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
