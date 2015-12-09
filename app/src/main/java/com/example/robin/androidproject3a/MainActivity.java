@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < radValues.length; i++) {
                 degreeValues[i] = (float) Math.toDegrees(radValues[i]);
             }
-//            Log.i("SENSE", "x: " + degreeValues[0] + ", y: " + degreeValues[1] + ", z: " + degreeValues[2]);
             flowerAnimation.drawFlower(degreeValues[1]);
         }
     }
