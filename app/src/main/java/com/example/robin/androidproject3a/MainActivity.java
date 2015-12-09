@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private float[] degreeValues = new float[3];
     private float[] rotation = new float[9];
     private float acceleration;
-    private float currentAcceleration;
-    private float previousAcceleration;
+    private float currentAcceleration = SensorManager.GRAVITY_EARTH;
+    private float previousAcceleration = SensorManager.GRAVITY_EARTH;
     private boolean highPassFilter = true;
     private boolean lowPassFilter = false;
     private SensorFilter[] highPassFilters = {new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f), new SensorFilter(0f, 0.10f)};
@@ -46,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private Animation petalAnimation2;
     private Animation petalAnimation3;
     private Animation petalAnimation4;
-    private Animation petalAnimation5;
-    private ImageView petal5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +107,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean senseIfShake() {
         if (accelerometerData != null) {
 
-//            if(new Date().getTime() < previousShake.getTime() + 1000)
-//                return false;
-
             float x = accelerometerData[0];
             float y = accelerometerData[1];
             float z = accelerometerData[2];
@@ -122,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (time == null)
                 time = new Date();
-
-//            System.out.println(acceleration);
 
             if (acceleration > maxAcc) {
                 maxAcc = acceleration;
@@ -137,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     accCounter++;
                     System.out.println("we HAVE been shaking for 0.2s");
                     if (accCounter >= 5) {
-//                        flowerAnimation.playShake();
-                        accCounter = 0;
-//                        previousShake = new Date();
+                        accCounter = -2;
                         playShake();
 //                        System.out.println("we HAVE been shaking for 1.0s");
                     }
